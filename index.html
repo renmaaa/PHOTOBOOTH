@@ -37,10 +37,7 @@
   .display{ font-family:'Fraunces', serif; }
   .mono{ font-family:'Space Mono', monospace; }
 
-  .stage{
-    width:100%;
-    max-width:460px;
-  }
+  .stage{ width:100%; max-width:460px; }
 
   .screen{ display:none; }
   .screen.active{ display:block; animation: rise .5s ease; }
@@ -54,18 +51,8 @@
     color:var(--flash);
     margin:0 0 10px;
   }
-  h1.title{
-    font-size:38px;
-    line-height:1.05;
-    margin:0 0 6px;
-    font-weight:600;
-  }
-  .sub{
-    color:var(--mist);
-    font-size:14.5px;
-    line-height:1.5;
-    margin:0 0 26px;
-  }
+  h1.title{ font-size:36px; line-height:1.05; margin:0 0 6px; font-weight:600; }
+  .sub{ color:var(--mist); font-size:14.5px; line-height:1.5; margin:0 0 26px; }
 
   .card{
     background:var(--panel);
@@ -75,12 +62,8 @@
   }
 
   label.field-label{
-    display:block;
-    font-size:12px;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color:var(--mist);
-    margin-bottom:8px;
+    display:block; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--mist); margin-bottom:8px;
   }
   input[type=text]{
     width:100%;
@@ -101,13 +84,9 @@
 
   button{
     font-family:'Work Sans', sans-serif;
-    font-weight:600;
-    font-size:14.5px;
-    border-radius:10px;
-    border:none;
-    padding:13px 18px;
-    cursor:pointer;
-    transition: transform .12s ease, filter .12s ease;
+    font-weight:600; font-size:14.5px;
+    border-radius:10px; border:none; padding:13px 18px;
+    cursor:pointer; transition: transform .12s ease, filter .12s ease;
   }
   button:active{ transform:scale(0.97); }
   button:disabled{ opacity:.45; cursor:not-allowed; }
@@ -122,98 +101,52 @@
     color:var(--mist); font-size:12px; letter-spacing:.1em; text-transform:uppercase;
     margin:22px 0;
   }
-  .divider-or::before, .divider-or::after{
-    content:''; flex:1; height:1px; background:var(--line);
-  }
+  .divider-or::before, .divider-or::after{ content:''; flex:1; height:1px; background:var(--line); }
 
-  .privacy-note{
-    margin-top:16px;
-    font-size:12px;
-    color:var(--mist);
-    line-height:1.5;
-    display:flex;
-    gap:8px;
-  }
+  .privacy-note{ margin-top:16px; font-size:12px; color:var(--mist); line-height:1.5; display:flex; gap:8px; }
 
-  /* waiting screen */
-  .code-display{
-    text-align:center;
-    padding:26px 10px 22px;
-  }
-  .code-display .code{
-    font-family:'Space Mono', monospace;
-    font-size:44px;
-    letter-spacing:.14em;
-    color:var(--flash);
-    font-weight:700;
-  }
-  .code-hint{ color:var(--mist); font-size:13px; margin-top:6px;}
+  .code-hint{ color:var(--mist); font-size:12px; margin:0; }
   .pulse-dot{
     width:8px; height:8px; border-radius:50%; background:var(--bloom);
-    display:inline-block; margin-right:8px;
-    animation: pulse 1.4s infinite ease-in-out;
+    display:inline-block; margin-right:8px; animation: pulse 1.4s infinite ease-in-out;
   }
   @keyframes pulse{ 0%,100%{opacity:.35;} 50%{opacity:1;} }
-  .waiting-line{
-    display:flex; align-items:center; justify-content:center;
-    color:var(--mist); font-size:13px; margin-top:4px;
-  }
+  .waiting-line{ display:flex; align-items:center; color:var(--mist); font-size:12.5px; }
 
-  /* booth screen */
-  .booth-header{
-    display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;
-  }
-  .round-tag{
-    font-family:'Space Mono', monospace; font-size:12px; color:var(--mist); letter-spacing:.08em;
-  }
+  .booth-header{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px; }
+  .round-tag{ font-family:'Space Mono', monospace; font-size:12px; color:var(--mist); letter-spacing:.08em; }
   .round-tag b{ color:var(--flash); }
 
+  .lobby-card{ margin-bottom:14px; padding:14px 16px; }
+  .lobby-top{ display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap; }
+  .code-chip{ color:var(--flash); font-size:15px; letter-spacing:.08em; }
+
   .cam-wrap{
-    position:relative;
-    background:#0d0710;
-    border-radius:14px;
-    overflow:hidden;
-    aspect-ratio:1/1;
-    border:1px solid var(--line);
+    position:relative; background:#0d0710; border-radius:14px; overflow:hidden;
+    aspect-ratio:1/1; border:1px solid var(--line);
   }
-  video{
-    width:100%; height:100%; object-fit:cover;
-    transform:scaleX(-1);
-    display:block;
-  }
+  video{ width:100%; height:100%; object-fit:cover; transform:scaleX(-1); display:block; }
   .cam-label{
-    position:absolute; bottom:10px; left:10px;
-    background:rgba(0,0,0,.45);
-    padding:4px 10px; border-radius:20px;
-    font-size:11px; letter-spacing:.06em; text-transform:uppercase;
-    font-family:'Space Mono', monospace;
+    position:absolute; bottom:10px; left:10px; background:rgba(0,0,0,.45);
+    padding:4px 10px; border-radius:20px; font-size:11px; letter-spacing:.06em;
+    text-transform:uppercase; font-family:'Space Mono', monospace;
   }
   .partner-status{
-    position:absolute; top:10px; right:10px;
-    background:rgba(0,0,0,.45);
-    padding:4px 10px; border-radius:20px;
-    font-size:11px; font-family:'Space Mono', monospace;
+    position:absolute; top:10px; right:10px; background:rgba(0,0,0,.45);
+    padding:4px 10px; border-radius:20px; font-size:11px; font-family:'Space Mono', monospace;
+    max-width:70%; text-align:right;
   }
 
   .countdown-overlay{
-    position:absolute; inset:0;
-    background:rgba(15,8,18,.55);
-    display:none;
-    align-items:center; justify-content:center;
-    flex-direction:column;
+    position:absolute; inset:0; background:rgba(15,8,18,.55);
+    display:none; align-items:center; justify-content:center; flex-direction:column;
   }
   .countdown-overlay.active{ display:flex; }
   .countdown-num{
-    font-family:'Fraunces', serif;
-    font-size:96px;
-    font-weight:700;
-    color:var(--paper);
+    font-family:'Fraunces', serif; font-size:96px; font-weight:700; color:var(--paper);
     text-shadow:0 0 30px rgba(255,179,71,.6);
   }
-  .flash-white{
-    position:absolute; inset:0; background:white; opacity:0;
-    pointer-events:none;
-  }
+  .flash-white{ position:absolute; inset:0; background:white; opacity:0; pointer-events:none; }
   .flash-white.go{ animation: flash .35s ease; }
   @keyframes flash{ 0%{opacity:0;} 15%{opacity:.9;} 100%{opacity:0;} }
 
@@ -225,33 +158,22 @@
   .upload-fallback.active{ display:flex; }
   .upload-fallback input{ color:var(--paper); font-size:12px; }
 
-  .thumbs-row{ display:flex; gap:8px; margin-top:12px; }
-  .thumbs-row img{
-    width:46px; height:46px; object-fit:cover; border-radius:8px; border:1px solid var(--line);
-  }
+  .thumbs-row{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  .thumbs-row img{ width:44px; height:44px; object-fit:cover; border-radius:8px; border:1px solid var(--line); }
 
   .actions{ margin-top:16px; display:flex; flex-direction:column; gap:10px; }
 
-  /* strip screen */
   .strip-wrap{ text-align:center; }
-  #stripCanvas{
-    max-width:100%;
-    border-radius:10px;
-    box-shadow:0 20px 50px rgba(0,0,0,.45);
-  }
+  #stripCanvas{ max-width:100%; border-radius:10px; box-shadow:0 20px 50px rgba(0,0,0,.45); }
   .strip-actions{ margin-top:20px; display:flex; flex-direction:column; gap:10px; }
 
   .top-link{
     display:block; text-align:center; margin-top:18px; color:var(--mist);
-    font-size:13px; text-decoration:underline; cursor:pointer; background:none; border:none; width:auto; margin-left:auto; margin-right:auto;
+    font-size:13px; text-decoration:underline; cursor:pointer; background:none; border:none;
+    width:auto; margin-left:auto; margin-right:auto;
   }
 
-  .name-tag{
-    font-size:12px; color:var(--mist); margin-top:6px;
-  }
-  .err{
-    color:var(--bloom); font-size:13px; margin-top:10px; min-height:16px;
-  }
+  .err{ color:var(--bloom); font-size:13px; margin-top:10px; min-height:16px; }
 </style>
 </head>
 <body>
@@ -261,8 +183,8 @@
   <!-- SCREEN 1: START -->
   <div class="screen active" id="screen-start">
     <p class="eyebrow">— together booth —</p>
-    <h1 class="title display">One booth,<br>two places.</h1>
-    <p class="sub">Start a booth and send the code to your friend or lover. When you're both in, hit the countdown together and walk away with the same strip.</p>
+    <h1 class="title display">One booth,<br>everyone at once.</h1>
+    <p class="sub">Start a booth and send the code to up to seven friends. When everyone's in, count down together and walk away with the same strip — no matter where you all are.</p>
 
     <div class="card">
       <label class="field-label">Your name</label>
@@ -282,38 +204,29 @@
 
     <div class="privacy-note">
       <span>🔒</span>
-      <span>Anyone who has your booth code can join it and see the photos taken in it. Share the code only with the person you're inviting.</span>
+      <span>Anyone who has your booth code can join it (up to 8 people) and see the photos taken in it. Share the code only with people you're inviting.</span>
     </div>
   </div>
 
-  <!-- SCREEN 2: WAITING FOR PARTNER -->
-  <div class="screen" id="screen-waiting">
-    <p class="eyebrow">— together booth —</p>
-    <h1 class="title display">Send them<br>this code.</h1>
-    <div class="card">
-      <div class="code-display">
-        <div class="code mono" id="codeDisplay">— — —</div>
-        <div class="code-hint">Text or say this code to your friend so they can join</div>
-      </div>
-      <div class="cam-wrap" style="aspect-ratio:4/3;">
-        <video id="waitVideo" autoplay playsinline muted></video>
-        <div class="cam-label" id="waitCamLabel">You</div>
-      </div>
-      <div class="waiting-line"><span class="pulse-dot"></span>Waiting for them to join…</div>
-    </div>
-    <button class="top-link" id="cancelWaitBtn">Cancel and start over</button>
-  </div>
-
-  <!-- SCREEN 3: BOOTH -->
+  <!-- SCREEN 2: BOOTH (lobby + capture combined) -->
   <div class="screen" id="screen-booth">
     <div class="booth-header">
       <p class="eyebrow" style="margin:0;">— together booth —</p>
       <span class="round-tag">SHOT <b id="roundNow">1</b> / <span id="roundTotal">3</span></span>
     </div>
+
+    <div class="card lobby-card">
+      <div class="lobby-top">
+        <span class="mono code-chip" id="boothCode">— — —</span>
+        <span class="code-hint">share this code to invite more people</span>
+      </div>
+      <div class="waiting-line" style="margin-top:8px;"><span class="pulse-dot" id="pulseDot"></span><span id="participantsLine">0 of 8 joined</span></div>
+    </div>
+
     <div class="cam-wrap" id="camWrap">
       <video id="boothVideo" autoplay playsinline muted></video>
       <div class="cam-label" id="boothCamLabel">You</div>
-      <div class="partner-status" id="partnerStatus">Partner: getting ready…</div>
+      <div class="partner-status" id="partnerStatus">Getting the room ready…</div>
       <div class="countdown-overlay" id="countdownOverlay">
         <div class="countdown-num mono" id="countdownNum">5</div>
       </div>
@@ -325,11 +238,12 @@
     </div>
     <div class="thumbs-row" id="thumbsRow"></div>
     <div class="actions">
-      <button class="btn-primary" id="startCountdownBtn" disabled>Waiting for both of you…</button>
+      <button class="btn-primary" id="startCountdownBtn" disabled>Waiting for at least one more person…</button>
     </div>
+    <button class="top-link" id="leaveBoothBtn">Leave and start over</button>
   </div>
 
-  <!-- SCREEN 4: STRIP -->
+  <!-- SCREEN 3: STRIP -->
   <div class="screen" id="screen-strip">
     <p class="eyebrow">— together booth —</p>
     <h1 class="title display">Your strip<br>is ready.</h1>
@@ -364,23 +278,24 @@
 <script>
 (function(){
   const ROUNDS = 3;
+  const MAX_SLOTS = 8;
+
   let myName = '';
   let roomCode = '';
-  let mySlot = null; // 1 or 2
-  let otherSlot = null;
+  let mySlot = null;
   let currentRound = 1;
   let lastHandledTarget = 0;
   let usingFallback = false;
   let stream = null;
-  let metaPollId = null;
+  let lobbyPollId = null;
   let triggerPollId = null;
-  let photoPollId = null;
+  let roundWaitPollId = null;
+  let lobbyManagesButton = true;
+  let thumbedSlots = new Set();
 
   const $ = id => document.getElementById(id);
-  const screens = ['screen-start','screen-waiting','screen-booth','screen-strip'];
-  function show(id){
-    screens.forEach(s => $(s).classList.toggle('active', s===id));
-  }
+  const screens = ['screen-start','screen-booth','screen-strip'];
+  function show(id){ screens.forEach(s => $(s).classList.toggle('active', s===id)); }
 
   function genCode(){
     const words = ['FOX','PLUM','MOON','SAGE','FERN','OPAL','WREN','TIDE','DUNE','IVY'];
@@ -389,29 +304,33 @@
     return w + '-' + n;
   }
 
-  async function storeGet(key, shared){
+  // ---------- FIREBASE HELPERS ----------
+  function boothPath(code){ return 'booths/' + code; }
+  function metaPath(code){ return boothPath(code) + '/meta'; }
+  function slotsPath(code){ return metaPath(code) + '/slots'; }
+  function startedPath(code){ return metaPath(code) + '/started'; }
+  function triggerPath(code){ return boothPath(code) + '/trigger'; }
+  function photoPath(code, round, slot){ return boothPath(code) + '/photos/' + round + '/' + slot; }
+
+  async function storeGet(path){
     try{
-      const snap = await db.ref(key).once('value');
+      const snap = await db.ref(path).once('value');
       const v = snap.val();
       return (v === null || v === undefined) ? null : v;
     }catch(e){
-      console.warn('storeGet failed', key, e);
+      console.warn('storeGet failed', path, e);
       return null;
     }
   }
-  async function storeSet(key, value, shared){
+  async function storeSet(path, value){
     try{
-      await db.ref(key).set(value);
+      await db.ref(path).set(value);
       return { ok:true };
     }catch(e){
-      console.error('storeSet failed', key, e);
+      console.error('storeSet failed', path, e);
       return { ok:false, error: (e && e.message) ? e.message : String(e) };
     }
   }
-
-  function metaKey(code){ return 'pb:'+code+':meta'; }
-  function triggerKey(code){ return 'pb:'+code+':trigger'; }
-  function photoKey(code, round, slot){ return 'pb:'+code+':photo:'+round+':'+slot; }
 
   // ---------- CAMERA ----------
   async function startCamera(videoEl, labelEl){
@@ -424,83 +343,99 @@
       if(labelEl) labelEl.textContent = 'No camera — upload mode';
     }
   }
-
-  function attachStreamTo(videoEl){
-    if(stream){ videoEl.srcObject = stream; }
-  }
+  function attachStreamTo(videoEl){ if(stream){ videoEl.srcObject = stream; } }
 
   // ---------- SCREEN 1: START ----------
   $('createBtn').addEventListener('click', async () => {
     myName = $('nameInput').value.trim() || 'Guest';
     $('startErr').textContent = '';
     roomCode = genCode();
-    mySlot = 1; otherSlot = 2;
-    const meta = { rounds: ROUNDS, slots: {}, createdAt: Date.now() };
-    meta.slots[1] = { name: myName };
-    const result = await storeSet(metaKey(roomCode), JSON.stringify(meta), true);
+    mySlot = 1;
+    const meta = { rounds: ROUNDS, maxSlots: MAX_SLOTS, started:false, createdAt: Date.now(), slots: { 1: { name: myName } } };
+    const result = await storeSet(metaPath(roomCode), meta);
     if(!result.ok){ $('startErr').textContent = 'Could not start a booth: ' + result.error; return; }
-    $('codeDisplay').textContent = roomCode;
-    show('screen-waiting');
-    await startCamera($('waitVideo'), $('waitCamLabel'));
-    pollForPartner();
+    enterBooth();
   });
 
   $('joinBtn').addEventListener('click', async () => {
     const code = $('codeInput').value.trim().toUpperCase();
     $('startErr').textContent = '';
     if(!code){ $('startErr').textContent = 'Enter a booth code first.'; return; }
-    const raw = await storeGet(metaKey(code), true);
-    if(!raw){ $('startErr').textContent = "Couldn't find that booth. Check the code."; return; }
-    const meta = JSON.parse(raw);
-    if(meta.slots[2]){ $('startErr').textContent = 'That booth already has two people.'; return; }
     myName = $('nameInput').value.trim() || 'Guest';
-    roomCode = code; mySlot = 2; otherSlot = 1;
-    meta.slots[2] = { name: myName };
-    await storeSet(metaKey(roomCode), JSON.stringify(meta), true);
-    enterBooth(meta);
-  });
 
-  function pollForPartner(){
-    metaPollId = setInterval(async () => {
-      const raw = await storeGet(metaKey(roomCode), true);
-      if(!raw) return;
-      const meta = JSON.parse(raw);
-      if(meta.slots[2]){
-        clearInterval(metaPollId);
-        enterBooth(meta);
+    const meta = await storeGet(metaPath(code));
+    if(!meta){ $('startErr').textContent = "Couldn't find that booth. Check the code."; return; }
+    if(meta.started){ $('startErr').textContent = 'This booth already started — ask for a new code.'; return; }
+
+    let assignedSlot = null;
+    try{
+      const result = await db.ref(slotsPath(code)).transaction((slots) => {
+        slots = slots || {};
+        const used = Object.keys(slots).map(Number);
+        if(used.length >= MAX_SLOTS) return; // abort: full
+        let free = null;
+        for(let i=1;i<=MAX_SLOTS;i++){ if(!used.includes(i)){ free = i; break; } }
+        if(free === null) return; // abort: full
+        slots[free] = { name: myName };
+        assignedSlot = free;
+        return slots;
+      });
+      if(!result.committed || assignedSlot === null){
+        $('startErr').textContent = 'This booth is full (8/8).';
+        return;
       }
-    }, 1500);
-  }
+    }catch(e){
+      $('startErr').textContent = "Couldn't join: " + (e.message || e);
+      return;
+    }
 
-  $('cancelWaitBtn').addEventListener('click', () => {
-    if(metaPollId) clearInterval(metaPollId);
-    resetToStart();
+    roomCode = code;
+    mySlot = assignedSlot;
+    enterBooth();
   });
 
-  // ---------- SCREEN 3: BOOTH ----------
-  async function enterBooth(meta){
-    $('roundTotal').textContent = meta.rounds || ROUNDS;
-    currentRound = 1;
+  // ---------- SCREEN 2: BOOTH ----------
+  async function enterBooth(){
     show('screen-booth');
-    if(stream){
-      attachStreamTo($('boothVideo'));
-    } else {
-      await startCamera($('boothVideo'), $('boothCamLabel'));
-    }
-    if(usingFallback){
-      $('boothCamLabel').textContent = 'Upload mode';
-    }
-    const otherName = meta.slots[otherSlot] ? meta.slots[otherSlot].name : 'Partner';
-    $('partnerStatus').textContent = otherName + ': ready';
-    $('startCountdownBtn').disabled = false;
-    $('startCountdownBtn').textContent = 'Start the countdown 📸';
+    $('boothCode').textContent = roomCode;
+    currentRound = 1;
+    $('roundNow').textContent = currentRound;
+    lobbyManagesButton = true;
+    if(stream){ attachStreamTo($('boothVideo')); } else { await startCamera($('boothVideo'), $('boothCamLabel')); }
+    if(usingFallback){ $('boothCamLabel').textContent = 'Upload mode'; }
+    startLobbyPoll();
     watchTrigger();
   }
 
+  function startLobbyPoll(){
+    const refresh = async () => {
+      const meta = await storeGet(metaPath(roomCode));
+      if(!meta) return;
+      renderParticipants(meta);
+    };
+    refresh();
+    lobbyPollId = setInterval(refresh, 2000);
+  }
+
+  function renderParticipants(meta){
+    const slots = meta.slots || {};
+    const nums = Object.keys(slots).map(Number).sort((a,b)=>a-b);
+    const names = nums.map(n => slots[n].name);
+    $('participantsLine').textContent = names.length + ' of ' + MAX_SLOTS + ' joined — ' + names.join(', ');
+    if(lobbyManagesButton){
+      const enough = names.length >= 2;
+      $('startCountdownBtn').disabled = !enough;
+      $('startCountdownBtn').textContent = enough ? 'Start the countdown 📸' : 'Waiting for at least one more person…';
+    }
+  }
+
   $('startCountdownBtn').addEventListener('click', async () => {
+    lobbyManagesButton = false;
+    if(lobbyPollId){ clearInterval(lobbyPollId); lobbyPollId = null; }
+    if(currentRound === 1){ await storeSet(startedPath(roomCode), true); }
     const targetTime = Date.now() + 4000;
     lastHandledTarget = targetTime;
-    await storeSet(triggerKey(roomCode), JSON.stringify({ round: currentRound, targetTime }), true);
+    await storeSet(triggerPath(roomCode), { round: currentRound, targetTime });
     runCountdownTo(targetTime);
     $('startCountdownBtn').disabled = true;
     $('startCountdownBtn').textContent = 'Get ready…';
@@ -508,11 +443,12 @@
 
   function watchTrigger(){
     triggerPollId = setInterval(async () => {
-      const raw = await storeGet(triggerKey(roomCode), true);
-      if(!raw) return;
-      const t = JSON.parse(raw);
+      const t = await storeGet(triggerPath(roomCode));
+      if(!t) return;
       if(t.round === currentRound && t.targetTime !== lastHandledTarget && t.targetTime > Date.now() - 500){
         lastHandledTarget = t.targetTime;
+        lobbyManagesButton = false;
+        if(lobbyPollId){ clearInterval(lobbyPollId); lobbyPollId = null; }
         $('startCountdownBtn').disabled = true;
         $('startCountdownBtn').textContent = 'Get ready…';
         runCountdownTo(t.targetTime);
@@ -541,20 +477,17 @@
   }
 
   async function capturePhoto(){
-    if(usingFallback){
-      $('uploadFallback').classList.add('active');
-      return;
-    }
+    if(usingFallback){ $('uploadFallback').classList.add('active'); return; }
     const video = $('boothVideo');
     const canvas = $('captureCanvas');
     const size = Math.min(video.videoWidth, video.videoHeight) || 480;
     canvas.width = 480; canvas.height = 480;
     const ctx = canvas.getContext('2d');
-    ctx.translate(480,0); ctx.scale(-1,1); // mirror to match preview
+    ctx.translate(480,0); ctx.scale(-1,1);
     const sx = (video.videoWidth - size)/2;
     const sy = (video.videoHeight - size)/2;
     ctx.drawImage(video, sx, sy, size, size, 0, 0, 480, 480);
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
     await savePhoto(dataUrl);
   }
 
@@ -571,7 +504,7 @@
         const size = Math.min(img.width, img.height);
         const sx = (img.width-size)/2, sy = (img.height-size)/2;
         ctx.drawImage(img, sx, sy, size, size, 0, 0, 480, 480);
-        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
         $('uploadFallback').classList.remove('active');
         await savePhoto(dataUrl);
       };
@@ -581,66 +514,73 @@
   });
 
   async function savePhoto(dataUrl){
-    await storeSet(photoKey(roomCode, currentRound, mySlot), dataUrl, true);
-    const thumb = document.createElement('img');
-    thumb.src = dataUrl;
-    $('thumbsRow').appendChild(thumb);
+    await storeSet(photoPath(roomCode, currentRound, mySlot), dataUrl);
+    addThumbIfNew(mySlot, dataUrl);
     waitForRoundComplete();
   }
 
+  function addThumbIfNew(slot, dataUrl){
+    if(thumbedSlots.has(slot)) return;
+    thumbedSlots.add(slot);
+    const img = document.createElement('img');
+    img.src = dataUrl;
+    $('thumbsRow').appendChild(img);
+  }
+
   function waitForRoundComplete(){
-    $('partnerStatus').textContent = 'Waiting for their shot…';
-    photoPollId = setInterval(async () => {
-      const otherRaw = await storeGet(photoKey(roomCode, currentRound, otherSlot), true);
-      if(otherRaw){
-        clearInterval(photoPollId);
-        const thumb = document.createElement('img');
-        thumb.src = otherRaw;
-        $('thumbsRow').appendChild(thumb);
-        $('partnerStatus').textContent = 'Got both shots ✓';
+    $('partnerStatus').textContent = 'Collecting everyone\u2019s shot…';
+    const startedAt = Date.now();
+    const TIMEOUT = 15000;
+    roundWaitPollId = setInterval(async () => {
+      const meta = await storeGet(metaPath(roomCode));
+      const nums = meta && meta.slots ? Object.keys(meta.slots).map(Number) : [mySlot];
+      let gotCount = 0;
+      for(const s of nums){
+        const v = await storeGet(photoPath(roomCode, currentRound, s));
+        if(v){ gotCount++; addThumbIfNew(s, v); }
+      }
+      $('partnerStatus').textContent = gotCount + ' of ' + nums.length + ' shots in';
+      const timedOut = (Date.now() - startedAt) > TIMEOUT;
+      if(gotCount >= nums.length || timedOut){
+        clearInterval(roundWaitPollId);
         advanceRound();
       }
-    }, 1000);
+    }, 1200);
   }
 
   function advanceRound(){
     if(currentRound >= ROUNDS){
-      setTimeout(buildStrip, 1200);
+      setTimeout(buildStrip, 1000);
       return;
     }
     setTimeout(() => {
       currentRound += 1;
       $('roundNow').textContent = currentRound;
       $('thumbsRow').innerHTML = '';
+      thumbedSlots = new Set();
       $('partnerStatus').textContent = 'Ready';
-      // only slot 1 auto-advances the trigger to avoid a double-fire race
-      if(mySlot === 1){
-        $('startCountdownBtn').disabled = false;
-        $('startCountdownBtn').textContent = 'Start shot ' + currentRound + ' 📸';
-      } else {
-        $('startCountdownBtn').disabled = true;
-        $('startCountdownBtn').textContent = 'Waiting for them to start shot ' + currentRound + '…';
-      }
-    }, 1500);
+      $('startCountdownBtn').disabled = false;
+      $('startCountdownBtn').textContent = 'Start shot ' + currentRound + ' 📸';
+    }, 1200);
   }
 
-  // ---------- SCREEN 4: STRIP ----------
+  // ---------- SCREEN 3: STRIP ----------
   async function buildStrip(){
-    if(triggerPollId) clearInterval(triggerPollId);
+    if(triggerPollId){ clearInterval(triggerPollId); triggerPollId = null; }
     show('screen-strip');
 
-    // gather all photos
-    const photos = { 1:[], 2:[] };
-    for(let r=1; r<=ROUNDS; r++){
-      photos[1].push(await storeGet(photoKey(roomCode, r, 1), true));
-      photos[2].push(await storeGet(photoKey(roomCode, r, 2), true));
-    }
-    const metaRaw = await storeGet(metaKey(roomCode), true);
-    const meta = metaRaw ? JSON.parse(metaRaw) : {slots:{}};
-    const name1 = (meta.slots[1] && meta.slots[1].name) || 'One';
-    const name2 = (meta.slots[2] && meta.slots[2].name) || 'Two';
+    const meta = await storeGet(metaPath(roomCode));
+    const nums = meta && meta.slots ? Object.keys(meta.slots).map(Number).sort((a,b)=>a-b) : [mySlot];
+    const names = nums.map(s => (meta && meta.slots[s] && meta.slots[s].name) || ('Guest ' + s));
 
-    await drawFilmStrip(photos, name1, name2);
+    const photosByRound = [];
+    for(let r=1; r<=ROUNDS; r++){
+      const row = [];
+      for(const s of nums){ row.push(await storeGet(photoPath(roomCode, r, s))); }
+      photosByRound.push(row);
+    }
+
+    await drawFilmStrip(photosByRound, names, nums.length);
   }
 
   function loadImg(src){
@@ -653,26 +593,45 @@
     });
   }
 
-  async function drawFilmStrip(photos, name1, name2){
+  function wrapCenteredText(ctx, parts, cx, y, maxWidth, lineHeight){
+    let lines = [''];
+    let li = 0;
+    for(const part of parts){
+      const test = lines[li] ? lines[li] + '  ·  ' + part : part;
+      if(ctx.measureText(test).width > maxWidth && lines[li]){
+        li++; lines[li] = part;
+      } else {
+        lines[li] = test;
+      }
+    }
+    lines.forEach((line, idx) => ctx.fillText(line, cx, y + idx*lineHeight));
+    return lines.length;
+  }
+
+  async function drawFilmStrip(photosByRound, names, N){
     try{ await document.fonts.load('700 40px Fraunces'); await document.fonts.load('700 14px "Space Mono"'); }catch(e){}
 
-    const W = 500;
-    const photoSize = 190;
+    const cols = Math.min(N, 4);
+    const rows = Math.ceil(N / cols);
+    const size = cols <= 2 ? 190 : (cols === 3 ? 150 : 118);
+    const gap = 12;
     const pad = 26;
-    const rowGap = 22;
-    const headerH = 96;
-    const footerH = 96;
-    const H = headerH + ROUNDS*(photoSize+rowGap) - rowGap + footerH;
+    const labelH = 22;
+    const roundGap = 20;
+
+    const W = pad*2 + cols*size + (cols-1)*gap;
+    const blockH = rows*size + (rows-1)*gap + labelH;
+    const headerH = names.length > 4 ? 108 : 92;
+    const footerH = 76;
+    const H = headerH + ROUNDS*blockH + (ROUNDS-1)*roundGap + footerH;
 
     const canvas = $('stripCanvas');
     canvas.width = W; canvas.height = H;
     const ctx = canvas.getContext('2d');
 
-    // paper background
     ctx.fillStyle = '#F5EDE4';
     ctx.fillRect(0,0,W,H);
 
-    // sprocket holes
     ctx.fillStyle = '#1F1626';
     const holeR = 5;
     for(let y = 24; y < H-16; y += 26){
@@ -680,51 +639,46 @@
       ctx.beginPath(); ctx.arc(W-16, y, holeR, 0, Math.PI*2); ctx.fill();
     }
 
-    // header
-    ctx.fillStyle = '#1F1626';
     ctx.textAlign = 'center';
-    ctx.font = '700 30px Fraunces, serif';
-    ctx.fillText('TOGETHER BOOTH', W/2, 46);
-    ctx.font = '400 13px "Space Mono", monospace';
+    ctx.fillStyle = '#1F1626';
+    ctx.font = '700 26px Fraunces, serif';
+    ctx.fillText('TOGETHER BOOTH', W/2, 40);
+    ctx.font = '400 11px "Space Mono", monospace';
     ctx.fillStyle = '#8a7a94';
-    ctx.fillText(name1 + '  ×  ' + name2, W/2, 70);
+    wrapCenteredText(ctx, names, W/2, 60, W-70, 15);
 
-    // rows
     let y = headerH;
     for(let r=0; r<ROUNDS; r++){
-      const img1 = await loadImg(photos[1][r]);
-      const img2 = await loadImg(photos[2][r]);
-      const gap = 14;
-      const w = (W - pad*2 - gap)/2;
-
-      // round label
       ctx.textAlign = 'left';
       ctx.font = '700 11px "Space Mono", monospace';
       ctx.fillStyle = '#FF6F91';
       ctx.fillText('0'+(r+1), pad, y - 6);
 
-      drawCover(ctx, img1, pad, y, w, photoSize);
-      drawCover(ctx, img2, pad+w+gap, y, w, photoSize);
-
-      y += photoSize + rowGap;
+      for(let i=0; i<N; i++){
+        const col = i % cols;
+        const row = Math.floor(i/cols);
+        const x = pad + col*(size+gap);
+        const yy = y + labelH - 12 + row*(size+gap);
+        const img = await loadImg(photosByRound[r][i]);
+        drawCover(ctx, img, x, yy, size, size);
+      }
+      y += blockH + roundGap;
     }
 
-    // footer
     ctx.textAlign = 'center';
     ctx.font = '400 12px "Space Mono", monospace';
     ctx.fillStyle = '#8a7a94';
     const dateStr = new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
-    ctx.fillText(dateStr + '  •  same moment, different places', W/2, H - 54);
+    ctx.fillText(dateStr + '  •  same moment, different places', W/2, H - 40);
     ctx.font = '700 20px Fraunces, serif';
     ctx.fillStyle = '#1F1626';
-    ctx.fillText('♥', W/2, H - 22);
+    ctx.fillText('♥', W/2, H - 14);
   }
 
   function drawCover(ctx, img, x, y, w, h){
     ctx.save();
     ctx.beginPath();
-    const rad = 10;
-    roundRect(ctx, x, y, w, h, rad);
+    roundRect(ctx, x, y, w, h, 10);
     ctx.clip();
     if(img){
       const s = Math.min(img.width/w, img.height/h);
@@ -754,18 +708,15 @@
     link.click();
   });
 
-  $('newSessionBtn').addEventListener('click', () => {
-    resetToStart();
-  });
+  $('newSessionBtn').addEventListener('click', resetToStart);
+  $('leaveBoothBtn').addEventListener('click', resetToStart);
 
   function resetToStart(){
-    if(metaPollId) clearInterval(metaPollId);
-    if(triggerPollId) clearInterval(triggerPollId);
-    if(photoPollId) clearInterval(photoPollId);
-    roomCode=''; mySlot=null; otherSlot=null; currentRound=1; lastHandledTarget=0;
-    $('codeInput').value='';
-    $('startErr').textContent='';
-    $('thumbsRow').innerHTML='';
+    if(lobbyPollId){ clearInterval(lobbyPollId); lobbyPollId = null; }
+    if(triggerPollId){ clearInterval(triggerPollId); triggerPollId = null; }
+    if(roundWaitPollId){ clearInterval(roundWaitPollId); roundWaitPollId = null; }
+    roomCode=''; mySlot=null; currentRound=1; lastHandledTarget=0; thumbedSlots = new Set();
+    $('codeInput').value=''; $('startErr').textContent=''; $('thumbsRow').innerHTML='';
     show('screen-start');
   }
 
