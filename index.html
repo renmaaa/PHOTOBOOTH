@@ -221,7 +221,7 @@
     <div class="card lobby-card">
       <div class="lobby-top">
         <span class="mono code-chip" id="boothCode">— — —</span>
-        <span class="code-hint">share this code to invite more people</span>
+        <span class="code-hint" id="codeHint">share this code to invite more people</span>
       </div>
       <div class="waiting-line" style="margin-top:8px;"><span class="pulse-dot" id="pulseDot"></span><span id="participantsLine">0 of 8 joined</span></div>
     </div>
@@ -422,6 +422,13 @@
     lobbyManagesButton = true;
     if(stream){ attachStreamTo($('boothVideo')); } else { await startCamera($('boothVideo'), $('boothCamLabel')); }
     if(usingFallback){ $('boothCamLabel').textContent = 'Upload mode'; }
+    
+    if(soloMode) {
+      $('codeHint').textContent = 'Solo booth mode';
+    } else {
+      $('codeHint').textContent = 'share this code to invite more people';
+    }
+
     startLobbyPoll();
     watchTrigger();
   }
@@ -440,9 +447,12 @@
     const slots = meta.slots || {};
     const nums = Object.keys(slots).map(Number).sort((a,b)=>a-b);
     const names = nums.map(n => slots[n].name);
-    $('participantsLine').textContent = names.length + ' of ' + MAX_SLOTS + ' joined — ' + names.join(', ');
+    const max = meta.solo ? 1 : MAX_SLOTS;
+    $('participantsLine').textContent = names.length + ' of ' + max + ' joined — ' + names.join(', ');
+    
     if(lobbyManagesButton){
-      const enough = names.length >= 2;
+      // Fixed: Enable button if in solo mode OR if at least 2 people joined
+      const enough = meta.solo || names.length >= 2;
       $('startCountdownBtn').disabled = !enough;
       $('startCountdownBtn').textContent = enough ? 'Start the countdown 📸' : 'Waiting for at least one more person…';
     }
@@ -547,7 +557,7 @@
   }
 
   function waitForRoundComplete(){
-    $('partnerStatus').textContent = 'Collecting everyone\u2019s shot…';
+    $('partnerStatus').textContent = soloMode ? 'Processing shot…' : 'Collecting everyone\u2019s shot…';
     const startedAt = Date.now();
     const TIMEOUT = 15000;
     roundWaitPollId = setInterval(async () => {
@@ -688,7 +698,7 @@
     ctx.font = '400 12px "Space Mono", monospace';
     ctx.fillStyle = '#8a7a94';
     const dateStr = new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
-    ctx.fillText(dateStr + '  •  same moment, different places', W/2, H - 40);
+    ctx.fillText(dateStr + (soloMode ? '' : '  •  same moment, different places'), W/2, H - 40);
     ctx.font = '700 20px Fraunces, serif';
     ctx.fillStyle = '#1F1626';
     ctx.fillText('♥', W/2, H - 14);
