@@ -184,13 +184,16 @@
   <div class="screen active" id="screen-start">
     <p class="eyebrow">— together booth —</p>
     <h1 class="title display">One booth,<br>everyone at once.</h1>
-    <p class="sub">Start a booth and send the code to up to seven friends. When everyone's in, count down together and walk away with the same strip — no matter where you all are.</p>
+    <p class="sub">Start a booth and send the code to up to nine friends, count down together, and walk away with the same strip — no matter where you all are. Or just take one solo.</p>
 
     <div class="card">
       <label class="field-label">Your name</label>
       <input type="text" id="nameInput" placeholder="What should we call you?" maxlength="20">
       <div style="height:16px"></div>
-      <button class="btn-primary" id="createBtn">Start a new booth</button>
+      <div class="row">
+        <button class="btn-primary" id="createBtn" style="flex:1;">Start a new booth</button>
+        <button class="btn-ghost" id="soloBtn" style="flex:1;">Just me, solo</button>
+      </div>
 
       <div class="divider-or">or join one</div>
 
@@ -204,7 +207,7 @@
 
     <div class="privacy-note">
       <span>🔒</span>
-      <span>Anyone who has your booth code can join it (up to 8 people) and see the photos taken in it. Share the code only with people you're inviting.</span>
+      <span>Anyone who has your booth code can join it (up to 10 people) and see the photos taken in it. Share the code only with people you're inviting.</span>
     </div>
   </div>
 
@@ -278,11 +281,12 @@
 <script>
 (function(){
   const ROUNDS = 3;
-  const MAX_SLOTS = 8;
+  const MAX_SLOTS = 10;
 
   let myName = '';
   let roomCode = '';
   let mySlot = null;
+  let soloMode = false;
   let currentRound = 1;
   let lastHandledTarget = 0;
   let usingFallback = false;
@@ -349,9 +353,22 @@
   $('createBtn').addEventListener('click', async () => {
     myName = $('nameInput').value.trim() || 'Guest';
     $('startErr').textContent = '';
+    soloMode = false;
     roomCode = genCode();
     mySlot = 1;
-    const meta = { rounds: ROUNDS, maxSlots: MAX_SLOTS, started:false, createdAt: Date.now(), slots: { 1: { name: myName } } };
+    const meta = { rounds: ROUNDS, maxSlots: MAX_SLOTS, started:false, solo:false, createdAt: Date.now(), slots: { 1: { name: myName } } };
+    const result = await storeSet(metaPath(roomCode), meta);
+    if(!result.ok){ $('startErr').textContent = 'Could not start a booth: ' + result.error; return; }
+    enterBooth();
+  });
+
+  $('soloBtn').addEventListener('click', async () => {
+    myName = $('nameInput').value.trim() || 'Guest';
+    $('startErr').textContent = '';
+    soloMode = true;
+    roomCode = genCode();
+    mySlot = 1;
+    const meta = { rounds: ROUNDS, maxSlots: 1, started:false, solo:true, createdAt: Date.now(), slots: { 1: { name: myName } } };
     const result = await storeSet(metaPath(roomCode), meta);
     if(!result.ok){ $('startErr').textContent = 'Could not start a booth: ' + result.error; return; }
     enterBooth();
@@ -362,9 +379,11 @@
     $('startErr').textContent = '';
     if(!code){ $('startErr').textContent = 'Enter a booth code first.'; return; }
     myName = $('nameInput').value.trim() || 'Guest';
+    soloMode = false;
 
     const meta = await storeGet(metaPath(code));
     if(!meta){ $('startErr').textContent = "Couldn't find that booth. Check the code."; return; }
+    if(meta.solo){ $('startErr').textContent = 'That booth is a solo booth and can\u2019t be joined.'; return; }
     if(meta.started){ $('startErr').textContent = 'This booth already started — ask for a new code.'; return; }
 
     let assignedSlot = null;
