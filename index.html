@@ -346,6 +346,21 @@
 
 <canvas id="captureCanvas" style="display:none;"></canvas>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCIEvDBAwB0Qskiy7W8rplqqppXhtYLFog",
+    authDomain: "together-booth-772c6.firebaseapp.com",
+    databaseURL: "https://together-booth-772c6-default-rtdb.firebaseio.com",
+    projectId: "together-booth-772c6",
+    storageBucket: "together-booth-772c6.firebasestorage.app",
+    messagingSenderId: "927568366098",
+    appId: "1:927568366098:web:5a2bdfbb7c7ad1700426cb"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+</script>
 <script>
 (function(){
   const ROUNDS = 3;
@@ -376,8 +391,9 @@
 
   async function storeGet(key, shared){
     try{
-      const r = await window.storage.get(key, !!shared);
-      return r ? r.value : null;
+      const snap = await db.ref(key).once('value');
+      const v = snap.val();
+      return (v === null || v === undefined) ? null : v;
     }catch(e){
       console.warn('storeGet failed', key, e);
       return null;
@@ -385,14 +401,7 @@
   }
   async function storeSet(key, value, shared){
     try{
-      if(!window.storage){
-        console.error('window.storage is not available in this context');
-        return { ok:false, error:'Storage is not available here.' };
-      }
-      const r = await window.storage.set(key, value, !!shared);
-      if(!r){
-        return { ok:false, error:'Storage returned no result.' };
-      }
+      await db.ref(key).set(value);
       return { ok:true };
     }catch(e){
       console.error('storeSet failed', key, e);
