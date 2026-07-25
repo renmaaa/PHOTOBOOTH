@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Together Booth</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Space+Mono:wght@400;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1F1626;
+    --panel:#2B1E35;
+    --panel2:#241A2E;
+    --flash:#FFB347;
+    --bloom:#FF6F91;
+    --paper:#F5EDE4;
+    --mist:#B8A9C9;
+    --line: rgba(245,237,228,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255,179,71,0.10), transparent 45%),
+      radial-gradient(circle at 85% 85%, rgba(255,111,145,0.10), transparent 50%),
+      var(--ink);
+    color:var(--paper);
+    font-family:'Work Sans', sans-serif;
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 16px;
+  }
+  .display{ font-family:'Fraunces', serif; }
+  .mono{ font-family:'Space Mono', monospace; }
+
+  .stage{
+    width:100%;
+    max-width:460px;
+  }
+
+  .screen{ display:none; }
+  .screen.active{ display:block; animation: rise .5s ease; }
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  .eyebrow{
+    font-family:'Space Mono', monospace;
+    font-size:11px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--flash);
+    margin:0 0 10px;
+  }
+  h1.title{
+    font-size:38px;
+    line-height:1.05;
+    margin:0 0 6px;
+    font-weight:600;
+  }
+  .sub{
+    color:var(--mist);
+    font-size:14.5px;
+    line-height:1.5;
+    margin:0 0 26px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:22px;
+  }
+
+  label.field-label{
+    display:block;
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--mist);
+    margin-bottom:8px;
+  }
+  input[type=text]{
+    width:100%;
+    background:var(--panel2);
+    border:1px solid var(--line);
+    color:var(--paper);
+    font-family:'Space Mono', monospace;
+    font-size:16px;
+    padding:12px 14px;
+    border-radius:10px;
+    outline:none;
+    letter-spacing:.05em;
+  }
+  input[type=text]:focus{ border-color:var(--flash); }
+  input[type=text]::placeholder{ color:#6c5f78; }
+
+  .row{ display:flex; gap:10px; }
+
+  button{
+    font-family:'Work Sans', sans-serif;
+    font-weight:600;
+    font-size:14.5px;
+    border-radius:10px;
+    border:none;
+    padding:13px 18px;
+    cursor:pointer;
+    transition: transform .12s ease, filter .12s ease;
+  }
+  button:active{ transform:scale(0.97); }
+  button:disabled{ opacity:.45; cursor:not-allowed; }
+  .btn-primary{ background:var(--flash); color:#251705; width:100%; }
+  .btn-primary:hover:not(:disabled){ filter:brightness(1.06); }
+  .btn-ghost{ background:transparent; color:var(--paper); border:1px solid var(--line); width:100%; }
+  .btn-ghost:hover:not(:disabled){ border-color:var(--mist); }
+  .btn-bloom{ background:var(--bloom); color:#2b0715; width:100%; }
+
+  .divider-or{
+    display:flex; align-items:center; gap:12px;
+    color:var(--mist); font-size:12px; letter-spacing:.1em; text-transform:uppercase;
+    margin:22px 0;
+  }
+  .divider-or::before, .divider-or::after{
+    content:''; flex:1; height:1px; background:var(--line);
+  }
+
+  .privacy-note{
+    margin-top:16px;
+    font-size:12px;
+    color:var(--mist);
+    line-height:1.5;
+    display:flex;
+    gap:8px;
+  }
+
+  /* waiting screen */
+  .code-display{
+    text-align:center;
+    padding:26px 10px 22px;
+  }
+  .code-display .code{
+    font-family:'Space Mono', monospace;
+    font-size:44px;
+    letter-spacing:.14em;
+    color:var(--flash);
+    font-weight:700;
+  }
+  .code-hint{ color:var(--mist); font-size:13px; margin-top:6px;}
+  .pulse-dot{
+    width:8px; height:8px; border-radius:50%; background:var(--bloom);
+    display:inline-block; margin-right:8px;
+    animation: pulse 1.4s infinite ease-in-out;
+  }
+  @keyframes pulse{ 0%,100%{opacity:.35;} 50%{opacity:1;} }
+  .waiting-line{
+    display:flex; align-items:center; justify-content:center;
+    color:var(--mist); font-size:13px; margin-top:4px;
+  }
+
+  /* booth screen */
+  .booth-header{
+    display:flex; justify-content:space-between; align-items:baseline; margin-bottom:14px;
+  }
+  .round-tag{
+    font-family:'Space Mono', monospace; font-size:12px; color:var(--mist); letter-spacing:.08em;
+  }
+  .round-tag b{ color:var(--flash); }
+
+  .cam-wrap{
+    position:relative;
+    background:#0d0710;
+    border-radius:14px;
+    overflow:hidden;
+    aspect-ratio:1/1;
+    border:1px solid var(--line);
+  }
+  video{
+    width:100%; height:100%; object-fit:cover;
+    transform:scaleX(-1);
+    display:block;
+  }
+  .cam-label{
+    position:absolute; bottom:10px; left:10px;
+    background:rgba(0,0,0,.45);
+    padding:4px 10px; border-radius:20px;
+    font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    font-family:'Space Mono', monospace;
+  }
+  .partner-status{
+    position:absolute; top:10px; right:10px;
+    background:rgba(0,0,0,.45);
+    padding:4px 10px; border-radius:20px;
+    font-size:11px; font-family:'Space Mono', monospace;
+  }
+
+  .countdown-overlay{
+    position:absolute; inset:0;
+    background:rgba(15,8,18,.55);
+    display:none;
+    align-items:center; justify-content:center;
+    flex-direction:column;
+  }
+  .countdown-overlay.active{ display:flex; }
+  .countdown-num{
+    font-family:'Fraunces', serif;
+    font-size:96px;
+    font-weight:700;
+    color:var(--paper);
+    text-shadow:0 0 30px rgba(255,179,71,.6);
+  }
+  .flash-white{
+    position:absolute; inset:0; background:white; opacity:0;
+    pointer-events:none;
+  }
+  .flash-white.go{ animation: flash .35s ease; }
+  @keyframes flash{ 0%{opacity:0;} 15%{opacity:.9;} 100%{opacity:0;} }
+
+  .upload-fallback{
+    position:absolute; inset:0; background:rgba(15,8,18,.85);
+    display:none; flex-direction:column; align-items:center; justify-content:center;
+    gap:12px; text-align:center; padding:20px;
+  }
+  .upload-fallback.active{ display:flex; }
+  .upload-fallback input{ color:var(--paper); font-size:12px; }
+
+  .thumbs-row{ display:flex; gap:8px; margin-top:12px; }
+  .thumbs-row img{
+    width:46px; height:46px; object-fit:cover; border-radius:8px; border:1px solid var(--line);
+  }
+
+  .actions{ margin-top:16px; display:flex; flex-direction:column; gap:10px; }
+
+  /* strip screen */
+  .strip-wrap{ text-align:center; }
+  #stripCanvas{
+    max-width:100%;
+    border-radius:10px;
+    box-shadow:0 20px 50px rgba(0,0,0,.45);
+  }
+  .strip-actions{ margin-top:20px; display:flex; flex-direction:column; gap:10px; }
+
+  .top-link{
+    display:block; text-align:center; margin-top:18px; color:var(--mist);
+    font-size:13px; text-decoration:underline; cursor:pointer; background:none; border:none; width:auto; margin-left:auto; margin-right:auto;
+  }
+
+  .name-tag{
+    font-size:12px; color:var(--mist); margin-top:6px;
+  }
+  .err{
+    color:var(--bloom); font-size:13px; margin-top:10px; min-height:16px;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- SCREEN 1: START -->
+  <div class="screen active" id="screen-start">
+    <p class="eyebrow">— together booth —</p>
+    <h1 class="title display">One booth,<br>two places.</h1>
+    <p class="sub">Start a booth and send the code to your friend or lover. When you're both in, hit the countdown together and walk away with the same strip.</p>
+
+    <div class="card">
+      <label class="field-label">Your name</label>
+      <input type="text" id="nameInput" placeholder="What should we call you?" maxlength="20">
+      <div style="height:16px"></div>
+      <button class="btn-primary" id="createBtn">Start a new booth</button>
+
+      <div class="divider-or">or join one</div>
+
+      <label class="field-label">Booth code</label>
+      <div class="row">
+        <input type="text" id="codeInput" placeholder="e.g. FOX-482" maxlength="10" style="text-transform:uppercase">
+        <button class="btn-ghost" id="joinBtn" style="width:auto; white-space:nowrap;">Join</button>
+      </div>
+      <div class="err" id="startErr"></div>
+    </div>
+
+    <div class="privacy-note">
+      <span>🔒</span>
+      <span>Anyone who has your booth code can join it and see the photos taken in it. Share the code only with the person you're inviting.</span>
+    </div>
+  </div>
+
+  <!-- SCREEN 2: WAITING FOR PARTNER -->
+  <div class="screen" id="screen-waiting">
+    <p class="eyebrow">— together booth —</p>
+    <h1 class="title display">Send them<br>this code.</h1>
+    <div class="card">
+      <div class="code-display">
+        <div class="code mono" id="codeDisplay">— — —</div>
+        <div class="code-hint">Text or say this code to your friend so they can join</div>
+      </div>
+      <div class="cam-wrap" style="aspect-ratio:4/3;">
+        <video id="waitVideo" autoplay playsinline muted></video>
+        <div class="cam-label" id="waitCamLabel">You</div>
+      </div>
+      <div class="waiting-line"><span class="pulse-dot"></span>Waiting for them to join…</div>
+    </div>
+    <button class="top-link" id="cancelWaitBtn">Cancel and start over</button>
+  </div>
+
+  <!-- SCREEN 3: BOOTH -->
+  <div class="screen" id="screen-booth">
+    <div class="booth-header">
+      <p class="eyebrow" style="margin:0;">— together booth —</p>
+      <span class="round-tag">SHOT <b id="roundNow">1</b> / <span id="roundTotal">3</span></span>
+    </div>
+    <div class="cam-wrap" id="camWrap">
+      <video id="boothVideo" autoplay playsinline muted></video>
+      <div class="cam-label" id="boothCamLabel">You</div>
+      <div class="partner-status" id="partnerStatus">Partner: getting ready…</div>
+      <div class="countdown-overlay" id="countdownOverlay">
+        <div class="countdown-num mono" id="countdownNum">5</div>
+      </div>
+      <div class="flash-white" id="flashWhite"></div>
+      <div class="upload-fallback" id="uploadFallback">
+        <div>📷 Camera not available — pick a selfie now!</div>
+        <input type="file" accept="image/*" capture="user" id="fallbackInput">
+      </div>
+    </div>
+    <div class="thumbs-row" id="thumbsRow"></div>
+    <div class="actions">
+      <button class="btn-primary" id="startCountdownBtn" disabled>Waiting for both of you…</button>
+    </div>
+  </div>
+
+  <!-- SCREEN 4: STRIP -->
+  <div class="screen" id="screen-strip">
+    <p class="eyebrow">— together booth —</p>
+    <h1 class="title display">Your strip<br>is ready.</h1>
+    <div class="strip-wrap">
+      <canvas id="stripCanvas" width="500" height="900"></canvas>
+    </div>
+    <div class="strip-actions">
+      <button class="btn-bloom" id="downloadBtn">Download the strip</button>
+      <button class="btn-ghost" id="newSessionBtn">Start a new booth</button>
+    </div>
+  </div>
+
+</div>
+
+<canvas id="captureCanvas" style="display:none;"></canvas>
+
+<script>
+(function(){
+  const ROUNDS = 3;
+  let myName = '';
+  let roomCode = '';
+  let mySlot = null; // 1 or 2
+  let otherSlot = null;
+  let currentRound = 1;
+  let lastHandledTarget = 0;
+  let usingFallback = false;
+  let stream = null;
+  let metaPollId = null;
+  let triggerPollId = null;
+  let photoPollId = null;
+
+  const $ = id => document.getElementById(id);
+  const screens = ['screen-start','screen-waiting','screen-booth','screen-strip'];
+  function show(id){
+    screens.forEach(s => $(s).classList.toggle('active', s===id));
+  }
+
+  function genCode(){
+    const words = ['FOX','PLUM','MOON','SAGE','FERN','OPAL','WREN','TIDE','DUNE','IVY'];
+    const w = words[Math.floor(Math.random()*words.length)];
+    const n = Math.floor(100 + Math.random()*900);
+    return w + '-' + n;
+  }
+
+  async function storeGet(key, shared){
+    try{
+      const r = await window.storage.get(key, !!shared);
+      return r ? r.value : null;
+    }catch(e){
+      console.warn('storeGet failed', key, e);
+      return null;
+    }
+  }
+  async function storeSet(key, value, shared){
+    try{
+      if(!window.storage){
+        console.error('window.storage is not available in this context');
+        return { ok:false, error:'Storage is not available here.' };
+      }
+      const r = await window.storage.set(key, value, !!shared);
+      if(!r){
+        return { ok:false, error:'Storage returned no result.' };
+      }
+      return { ok:true };
+    }catch(e){
+      console.error('storeSet failed', key, e);
+      return { ok:false, error: (e && e.message) ? e.message : String(e) };
+    }
+  }
+
+  function metaKey(code){ return 'pb:'+code+':meta'; }
+  function triggerKey(code){ return 'pb:'+code+':trigger'; }
+  function photoKey(code, round, slot){ return 'pb:'+code+':photo:'+round+':'+slot; }
+
+  // ---------- CAMERA ----------
+  async function startCamera(videoEl, labelEl){
+    try{
+      stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode:'user' }, audio:false });
+      videoEl.srcObject = stream;
+      usingFallback = false;
+    }catch(e){
+      usingFallback = true;
+      if(labelEl) labelEl.textContent = 'No camera — upload mode';
+    }
+  }
+
+  function attachStreamTo(videoEl){
+    if(stream){ videoEl.srcObject = stream; }
+  }
+
+  // ---------- SCREEN 1: START ----------
+  $('createBtn').addEventListener('click', async () => {
+    myName = $('nameInput').value.trim() || 'Guest';
+    $('startErr').textContent = '';
+    roomCode = genCode();
+    mySlot = 1; otherSlot = 2;
+    const meta = { rounds: ROUNDS, slots: {}, createdAt: Date.now() };
+    meta.slots[1] = { name: myName };
+    const result = await storeSet(metaKey(roomCode), JSON.stringify(meta), true);
+    if(!result.ok){ $('startErr').textContent = 'Could not start a booth: ' + result.error; return; }
+    $('codeDisplay').textContent = roomCode;
+    show('screen-waiting');
+    await startCamera($('waitVideo'), $('waitCamLabel'));
+    pollForPartner();
+  });
+
+  $('joinBtn').addEventListener('click', async () => {
+    const code = $('codeInput').value.trim().toUpperCase();
+    $('startErr').textContent = '';
+    if(!code){ $('startErr').textContent = 'Enter a booth code first.'; return; }
+    const raw = await storeGet(metaKey(code), true);
+    if(!raw){ $('startErr').textContent = "Couldn't find that booth. Check the code."; return; }
+    const meta = JSON.parse(raw);
+    if(meta.slots[2]){ $('startErr').textContent = 'That booth already has two people.'; return; }
+    myName = $('nameInput').value.trim() || 'Guest';
+    roomCode = code; mySlot = 2; otherSlot = 1;
+    meta.slots[2] = { name: myName };
+    await storeSet(metaKey(roomCode), JSON.stringify(meta), true);
+    enterBooth(meta);
+  });
+
+  function pollForPartner(){
+    metaPollId = setInterval(async () => {
+      const raw = await storeGet(metaKey(roomCode), true);
+      if(!raw) return;
+      const meta = JSON.parse(raw);
+      if(meta.slots[2]){
+        clearInterval(metaPollId);
+        enterBooth(meta);
+      }
+    }, 1500);
+  }
+
+  $('cancelWaitBtn').addEventListener('click', () => {
+    if(metaPollId) clearInterval(metaPollId);
+    resetToStart();
+  });
+
+  // ---------- SCREEN 3: BOOTH ----------
+  async function enterBooth(meta){
+    $('roundTotal').textContent = meta.rounds || ROUNDS;
+    currentRound = 1;
+    show('screen-booth');
+    if(stream){
+      attachStreamTo($('boothVideo'));
+    } else {
+      await startCamera($('boothVideo'), $('boothCamLabel'));
+    }
+    if(usingFallback){
+      $('boothCamLabel').textContent = 'Upload mode';
+    }
+    const otherName = meta.slots[otherSlot] ? meta.slots[otherSlot].name : 'Partner';
+    $('partnerStatus').textContent = otherName + ': ready';
+    $('startCountdownBtn').disabled = false;
+    $('startCountdownBtn').textContent = 'Start the countdown 📸';
+    watchTrigger();
+  }
+
+  $('startCountdownBtn').addEventListener('click', async () => {
+    const targetTime = Date.now() + 4000;
+    lastHandledTarget = targetTime;
+    await storeSet(triggerKey(roomCode), JSON.stringify({ round: currentRound, targetTime }), true);
+    runCountdownTo(targetTime);
+    $('startCountdownBtn').disabled = true;
+    $('startCountdownBtn').textContent = 'Get ready…';
+  });
+
+  function watchTrigger(){
+    triggerPollId = setInterval(async () => {
+      const raw = await storeGet(triggerKey(roomCode), true);
+      if(!raw) return;
+      const t = JSON.parse(raw);
+      if(t.round === currentRound && t.targetTime !== lastHandledTarget && t.targetTime > Date.now() - 500){
+        lastHandledTarget = t.targetTime;
+        $('startCountdownBtn').disabled = true;
+        $('startCountdownBtn').textContent = 'Get ready…';
+        runCountdownTo(t.targetTime);
+      }
+    }, 600);
+  }
+
+  function runCountdownTo(targetTime){
+    const overlay = $('countdownOverlay');
+    const numEl = $('countdownNum');
+    overlay.classList.add('active');
+    const tick = () => {
+      const remaining = Math.ceil((targetTime - Date.now())/1000);
+      if(remaining > 0){
+        numEl.textContent = remaining;
+        requestAnimationFrame(() => setTimeout(tick, 80));
+      } else {
+        numEl.textContent = '📸';
+        overlay.classList.remove('active');
+        $('flashWhite').classList.add('go');
+        setTimeout(()=> $('flashWhite').classList.remove('go'), 400);
+        capturePhoto();
+      }
+    };
+    tick();
+  }
+
+  async function capturePhoto(){
+    if(usingFallback){
+      $('uploadFallback').classList.add('active');
+      return;
+    }
+    const video = $('boothVideo');
+    const canvas = $('captureCanvas');
+    const size = Math.min(video.videoWidth, video.videoHeight) || 480;
+    canvas.width = 480; canvas.height = 480;
+    const ctx = canvas.getContext('2d');
+    ctx.translate(480,0); ctx.scale(-1,1); // mirror to match preview
+    const sx = (video.videoWidth - size)/2;
+    const sy = (video.videoHeight - size)/2;
+    ctx.drawImage(video, sx, sy, size, size, 0, 0, 480, 480);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+    await savePhoto(dataUrl);
+  }
+
+  $('fallbackInput').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const img = new Image();
+      img.onload = async () => {
+        const canvas = $('captureCanvas');
+        canvas.width = 480; canvas.height = 480;
+        const ctx = canvas.getContext('2d');
+        const size = Math.min(img.width, img.height);
+        const sx = (img.width-size)/2, sy = (img.height-size)/2;
+        ctx.drawImage(img, sx, sy, size, size, 0, 0, 480, 480);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        $('uploadFallback').classList.remove('active');
+        await savePhoto(dataUrl);
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  async function savePhoto(dataUrl){
+    await storeSet(photoKey(roomCode, currentRound, mySlot), dataUrl, true);
+    const thumb = document.createElement('img');
+    thumb.src = dataUrl;
+    $('thumbsRow').appendChild(thumb);
+    waitForRoundComplete();
+  }
+
+  function waitForRoundComplete(){
+    $('partnerStatus').textContent = 'Waiting for their shot…';
+    photoPollId = setInterval(async () => {
+      const otherRaw = await storeGet(photoKey(roomCode, currentRound, otherSlot), true);
+      if(otherRaw){
+        clearInterval(photoPollId);
+        const thumb = document.createElement('img');
+        thumb.src = otherRaw;
+        $('thumbsRow').appendChild(thumb);
+        $('partnerStatus').textContent = 'Got both shots ✓';
+        advanceRound();
+      }
+    }, 1000);
+  }
+
+  function advanceRound(){
+    if(currentRound >= ROUNDS){
+      setTimeout(buildStrip, 1200);
+      return;
+    }
+    setTimeout(() => {
+      currentRound += 1;
+      $('roundNow').textContent = currentRound;
+      $('thumbsRow').innerHTML = '';
+      $('partnerStatus').textContent = 'Ready';
+      // only slot 1 auto-advances the trigger to avoid a double-fire race
+      if(mySlot === 1){
+        $('startCountdownBtn').disabled = false;
+        $('startCountdownBtn').textContent = 'Start shot ' + currentRound + ' 📸';
+      } else {
+        $('startCountdownBtn').disabled = true;
+        $('startCountdownBtn').textContent = 'Waiting for them to start shot ' + currentRound + '…';
+      }
+    }, 1500);
+  }
+
+  // ---------- SCREEN 4: STRIP ----------
+  async function buildStrip(){
+    if(triggerPollId) clearInterval(triggerPollId);
+    show('screen-strip');
+
+    // gather all photos
+    const photos = { 1:[], 2:[] };
+    for(let r=1; r<=ROUNDS; r++){
+      photos[1].push(await storeGet(photoKey(roomCode, r, 1), true));
+      photos[2].push(await storeGet(photoKey(roomCode, r, 2), true));
+    }
+    const metaRaw = await storeGet(metaKey(roomCode), true);
+    const meta = metaRaw ? JSON.parse(metaRaw) : {slots:{}};
+    const name1 = (meta.slots[1] && meta.slots[1].name) || 'One';
+    const name2 = (meta.slots[2] && meta.slots[2].name) || 'Two';
+
+    await drawFilmStrip(photos, name1, name2);
+  }
+
+  function loadImg(src){
+    return new Promise((resolve) => {
+      if(!src){ resolve(null); return; }
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = src;
+    });
+  }
+
+  async function drawFilmStrip(photos, name1, name2){
+    try{ await document.fonts.load('700 40px Fraunces'); await document.fonts.load('700 14px "Space Mono"'); }catch(e){}
+
+    const W = 500;
+    const photoSize = 190;
+    const pad = 26;
+    const rowGap = 22;
+    const headerH = 96;
+    const footerH = 96;
+    const H = headerH + ROUNDS*(photoSize+rowGap) - rowGap + footerH;
+
+    const canvas = $('stripCanvas');
+    canvas.width = W; canvas.height = H;
+    const ctx = canvas.getContext('2d');
+
+    // paper background
+    ctx.fillStyle = '#F5EDE4';
+    ctx.fillRect(0,0,W,H);
+
+    // sprocket holes
+    ctx.fillStyle = '#1F1626';
+    const holeR = 5;
+    for(let y = 24; y < H-16; y += 26){
+      ctx.beginPath(); ctx.arc(16, y, holeR, 0, Math.PI*2); ctx.fill();
+      ctx.beginPath(); ctx.arc(W-16, y, holeR, 0, Math.PI*2); ctx.fill();
+    }
+
+    // header
+    ctx.fillStyle = '#1F1626';
+    ctx.textAlign = 'center';
+    ctx.font = '700 30px Fraunces, serif';
+    ctx.fillText('TOGETHER BOOTH', W/2, 46);
+    ctx.font = '400 13px "Space Mono", monospace';
+    ctx.fillStyle = '#8a7a94';
+    ctx.fillText(name1 + '  ×  ' + name2, W/2, 70);
+
+    // rows
+    let y = headerH;
+    for(let r=0; r<ROUNDS; r++){
+      const img1 = await loadImg(photos[1][r]);
+      const img2 = await loadImg(photos[2][r]);
+      const gap = 14;
+      const w = (W - pad*2 - gap)/2;
+
+      // round label
+      ctx.textAlign = 'left';
+      ctx.font = '700 11px "Space Mono", monospace';
+      ctx.fillStyle = '#FF6F91';
+      ctx.fillText('0'+(r+1), pad, y - 6);
+
+      drawCover(ctx, img1, pad, y, w, photoSize);
+      drawCover(ctx, img2, pad+w+gap, y, w, photoSize);
+
+      y += photoSize + rowGap;
+    }
+
+    // footer
+    ctx.textAlign = 'center';
+    ctx.font = '400 12px "Space Mono", monospace';
+    ctx.fillStyle = '#8a7a94';
+    const dateStr = new Date().toLocaleDateString(undefined, { year:'numeric', month:'short', day:'numeric' });
+    ctx.fillText(dateStr + '  •  same moment, different places', W/2, H - 54);
+    ctx.font = '700 20px Fraunces, serif';
+    ctx.fillStyle = '#1F1626';
+    ctx.fillText('♥', W/2, H - 22);
+  }
+
+  function drawCover(ctx, img, x, y, w, h){
+    ctx.save();
+    ctx.beginPath();
+    const rad = 10;
+    roundRect(ctx, x, y, w, h, rad);
+    ctx.clip();
+    if(img){
+      const s = Math.min(img.width/w, img.height/h);
+      const sw = w*s, sh = h*s;
+      const sx = (img.width - sw)/2, sy = (img.height - sh)/2;
+      ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+    } else {
+      ctx.fillStyle = '#e6dccd';
+      ctx.fillRect(x,y,w,h);
+    }
+    ctx.restore();
+  }
+  function roundRect(ctx,x,y,w,h,r){
+    ctx.moveTo(x+r,y);
+    ctx.arcTo(x+w,y,x+w,y+h,r);
+    ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r);
+    ctx.arcTo(x,y,x+w,y,r);
+    ctx.closePath();
+  }
+
+  $('downloadBtn').addEventListener('click', () => {
+    const canvas = $('stripCanvas');
+    const link = document.createElement('a');
+    link.download = 'together-booth-' + roomCode + '.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  $('newSessionBtn').addEventListener('click', () => {
+    resetToStart();
+  });
+
+  function resetToStart(){
+    if(metaPollId) clearInterval(metaPollId);
+    if(triggerPollId) clearInterval(triggerPollId);
+    if(photoPollId) clearInterval(photoPollId);
+    roomCode=''; mySlot=null; otherSlot=null; currentRound=1; lastHandledTarget=0;
+    $('codeInput').value='';
+    $('startErr').textContent='';
+    $('thumbsRow').innerHTML='';
+    show('screen-start');
+  }
+
+})();
+</script>
+</body>
+</html>
